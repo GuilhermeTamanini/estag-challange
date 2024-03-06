@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css">
+    <title>Products</title>
+</head>
+<style>
+    .sub-input {
+        margin-left: 2px;
+        width: 31.65%;
+    }
+
+    #sub-btn {
+        height: 28px;
+    }
+
+    #first-collun {
+        width: 10%;
+    }
+
+    .del-btn {
+        width: 100%;
+    }
+
+    .edit-btn {
+        height: 100%;
+    }
+
+    .edit-p {
+        width: 40%;
+        height: 80%;
+        margin-right: 5px;
+    }
+</style>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li class="nav-link">
+                    <h1>Products</h1>
+                </li>
+                <li class="nav-link"><a href="home.html">Home</a></li>
+                <li class="nav-link"><a href="products.html">Products</a></li>
+                <li class="nav-link"><a href="categories.html">Categories</a></li>
+                <li class="nav-link"><a href="history.html">History</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="left-container">
+            <main>
+                <form action="http://localhost/routes/products.php" method="POST">
+                    <div>
+                        <input class="input" id="product-input" type="text" name="name" placeholder="Product name"
+                            pattern="[a-zA-Z0-9]+" title="Apenas letras e números!" required>
+                    </div>
+                    <div class="sub-inputs">
+                        <input type="text" hidden name="action" value="post">
+                        <input class="sub-input" id="amount-input" type="number" name="amount" placeholder="Amount"
+                            min="1" pattern="[0-9]+" title="Apenas números!" minlength="1" required>
+                        <input class="sub-input" id="unitPrice-input" type="number" name="price"
+                            placeholder="Unit price" min="1" pattern="[0-9]+" title="Apenas números!" minlength="1"
+                            required>
+                        <select class="sub-input" id="categories-select" name="category_code" id="sub-btn" required>
+                            <option value="" disabled selected hidden>Categories</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn">Add product</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+        <div class="right-container">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="first-collun">Id</th>
+                            <th id="other-collun">Product</th>
+                            <th id="other-collun">Amount</th>
+                            <th id="other-collun">Add Amount</th>
+                            <th id="other-collun">Unit price</th>
+                            <th id="other-collun">Category</th>
+                            <th id="other-collun">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        //Função para buscar as categorias e criar um option dentro do select com o nome da categoria.
+        function renderCategories() {
+            fetch("http://localhost/routes/categories.php?action=get",).then(response => response.json()).then((data) => {
+                var select = document.getElementById('categories-select');
+                data.forEach(category => {
+                    var option = document.createElement("option");
+                    option.value = JSON.stringify(category.code);
+                    option.innerText = JSON.stringify(category.name).replace(/"/g, "");
+                    select.append(option);
+                })
+            })
+        }
+
+        // Função para renderizar os produtos
+        function renderProducts() {
+            document.getElementById('tbody').innerText = "";
+            fetch("http://localhost/routes/products.php?action=get",).then(response => response.json()).then((data) => {
+                console.log(data)
+                data.forEach(product => {
+                    var specialCharsRegex = /[!@#$%^&*()_{}\[\]:;<>,.?~]/;
+                    if (specialCharsRegex.test(product.name)) {
+                        return;
+                    }
+                    let tbody = document.getElementById("tbody");
+                    let trow = document.createElement("tr");
+                    trow.innerHTML =
+                        `
+                        <td id="first-collun">${product.productcode}</td>
+                        <td id="other-collun">${product.productname}</td>
+                        <td id="other-collun">${product.amount}</td>
+                        <td id="other-collun"><input type="number" min="0" class="edit-p"><button class="edit-btn" onclick="Edit()">Edit</button> </td>
+                        <td id="other-collun">${product.price}</td>
+                        <td id="other-collun">${product.categoryname}</td>
+                        <td id="other-collun"><button class="del-btn" onclick="removeProduct(); location.href='http://localhost/routes/products.php?action=delete&code=${product.productcode}'">Delete</button></td>
+                    `;
+                    tbody.append(trow)
+                })
+            })
+        }
+
+        //Função para remover produtos do localStorage
+        function removeProduct() {
+            let trow = this.event.target.parentElement.parentElement
+            trow.innerText = "";
+        }
+
+        //Função para adicionar mais amount aos produtos 
+        function Edit() {
+            let tr = event.target.parentElement.parentElement;
+            let code = tr.children[0].innerText;
+            let amount = tr.children[2].innerText;
+            let inputValue = tr.children[3].children[0].value;
+
+            let newAmount = parseFloat(inputValue) + parseInt(amount)
+
+            if (inputValue < 0) {
+                alert("O valor tem que ser maior que zero!")
+                return;
+            }
+            if (inputValue == 0) {
+                alert('Adicione um valor para adicionar!')
+            } else {
+                location.href = `http://localhost/routes/products.php?action=update&code=${code}&amount=${newAmount}`
+            }
+        }
+
+        renderCategories()
+        renderProducts()
+    </script>
+</body>
+
+</html>

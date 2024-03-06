@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css">
+    <title>Categories</title>
+</head>
+<style>
+    #first-collun {
+        width: 25%;
+    }
+
+    .del-btn {
+        width: 100%;
+    }
+
+    #other-collun {
+        width: 20%;
+    }
+</style>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li class="nav-link">
+                    <h1>Categories</h1>
+                </li>
+                <li class="nav-link"><a href="home.html">Home</a></li>
+                <li class="nav-link"><a href="products.html">Products</a></li>
+                <li class="nav-link"><a href="categories.html">Categories</a></li>
+                <li class="nav-link"><a href="history.html">History</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="left-container">
+            <form action="http://localhost/routes/categories.php?action=post" method="POST">
+                <div>
+                    <input type="text" name="name" class="input" id="category-input" placeholder="Category name"
+                        pattern="[a-zA-Z0-9]+" title="Apenas letras e números!" maxlength="100" required>
+                </div>
+                <div>
+                    <input type="number" name="tax" class="input" id="tax-input" placeholder="Tax quantity"
+                        pattern="[0-9]+" title="Apenas números!" min="1" maxlength="4" required>
+                </div>
+                <button type="submit" name="addC-button" class="add-btn">Add category</button>
+            </form>
+            
+        </div>
+        <div class="right-container">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead class="thead">
+                        <tr>
+                            <th id="first-collun">Id</th>
+                            <th id="other-collun">Category</th>
+                            <th id="other-collun">Tax</th>
+                            <th id="other-collun">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody" id="tbody">
+                        <tr class="render-row">
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+    //Função para renderizar as categorias
+    function renderCategories() {
+        document.getElementById('tbody').innerText = "";
+        fetch("http://localhost/routes/categories.php?action=get",).then(response => response.json()).then((data) => {
+            let tbody = document.getElementById('tbody');
+            data.forEach(category => {
+                var specialCharsRegex = /[!@#$%^&*()_{}\[\]:;<>,.?~]/;
+                if (specialCharsRegex.test(category.name)) {
+                    return;
+                }
+                let trow = document.createElement('tr');
+                trow.innerHTML = `
+                <td id="first-collun">${category.code}</td>
+                <td id="other-collun">${category.name}</td>
+                <td id ="other-collun">${category.tax}%</td>
+                <td id="other-collun" ><button class="del-btn" onclick="removeCategory(); location.href='http://localhost/routes/categories.php?action=delete&code=${category.code}'">Delete</button></td>
+                `
+                tbody.append(trow)
+            })
+        });
+    }
+
+    //Função para remover a linha da tabela
+    function removeCategory() {
+        let trow = this.event.target.parentElement.parentElement
+        let newCategories = trow.innerText ="";
+        trow.remove()
+        renderCategories()
+    }
+    
+    renderCategories()
+    </script>
+</body>
+
+</html>

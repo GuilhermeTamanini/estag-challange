@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css">
+    <title>Home</title>
+</head>
+<style>
+    .table-container {
+        width: 100%;
+    }
+
+    .others {
+        display: flex;
+
+    }
+
+    .number-container {
+        width: 100%;
+        display: flex;
+        font-size: 22px;
+
+    }
+</style>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li class="nav-link">
+                    <h1>Suite Store</h1>
+                </li>
+                <li class="nav-link"><a href="home.html">Home</a></li>
+                <li class="nav-link"><a href="products.html">Products</a></li>
+                <li class="nav-link"><a href="categories.html">Categories</a></li>
+                <li class="nav-link"><a href="history.html">History</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="table-container">
+            <table class="table" id="table">
+                <thead class="thead">
+                    <tr>
+                        <th id="first-collun">Id</th>
+                        <th id="other-collun">Name</th>
+                        <th id="other-collun">Amount</th>
+                        <th id="other-collun">Price</th>
+                        <th id="other-collun">Category</th>
+                    </tr>
+                </thead>
+                <tbody class="tbody" id="tbody">
+                </tbody>
+            </table>
+            <div class="others">
+                <div class="number-container">Tax: R$<div id="tax"></div>
+                </div>
+                <div class="number-container">Total price: R$<div id="total"></div>
+                </div>
+            </div>
+            <div>
+                <h1>Finalizar a compra?</h1>
+            </div>
+            <button class="table-cancel-btn" onclick="Deny()">Não</button>
+            <button class="table-finish-btn" id="fim" onclick="Accept()">Sim</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+
+        //Função que renderiza os items do carrinho
+        function renderCarts() {
+            carts = JSON.parse(localStorage.getItem('carts'))
+            document.querySelector(".tbody").innerText = ""
+            let tbody = document.querySelector(".tbody");
+            carts.forEach(cart => {
+                let trow = document.createElement("tr");
+                trow.innerHTML =
+                    `  
+                <td id="first-collun">${cart.id}</td>
+                <td id="other-collun">${cart.name}</td>
+                <td class="number-input" id="other-collun">
+                    <input class="quantity" min="1" max="${cart.totalAmount}" name="quantity" value="${cart.amount}" type="number" id="getCartAmount" disabled>
+                </td>
+                <td id="other-collun">${cart.newUnitPrice}</td>
+                <td id="other-collun">${cart.category}</td>
+                <td class="totalTaxQuantity" hidden>${cart.totalTax}</td>
+                `;
+                tbody.append(trow);
+            })
+        }
+        renderCarts()
+
+        //Função para calcular e mostrar o preço de todos os produtos do carrinho
+        function totalPrice() {
+            let carts = JSON.parse(localStorage.getItem('carts'));
+            let amount = document.querySelectorAll('.quantity');
+            let getTotal = 0;
+
+            if (carts) {
+                carts.forEach((cart, ItemCart) => {
+                    let numberPrice = parseFloat(cart.newUnitPrice);
+                    let totalAmount = parseInt(amount[ItemCart].value);
+                    getTotal += numberPrice * totalAmount;
+                    total = (getTotal).toFixed(2)
+                });
+                document.getElementById('total').innerText = parseFloat(total);
+            }
+        }
+        totalPrice();
+
+        //Função para calcular e mostrar a taxa de todos os produtos do carrinho
+        function getTotalTax() {
+            let carts = JSON.parse(localStorage.getItem('carts'));
+            let getTotalTax = 0;
+
+            if (carts) {
+                carts.forEach((cart, ItemCart) => {
+                    let totalAmount = parseInt(carts[ItemCart].amount);
+                    let totalTax = parseFloat(carts[ItemCart].totalTax);
+                    getTotalTax += totalTax * totalAmount;
+                    total = (getTotalTax).toFixed(2);
+                });
+            }
+            document.getElementById('tax').innerText = parseFloat(total);
+        }
+        getTotalTax()
+
+        //Remove o item do localStorage e calcula o preço total novamente
+        function removeCart() {
+            let trow = this.event.target.parentElement.parentElement;
+            let id = trow.children[0].innerText;
+            let name = trow.children[1].innerText;
+            let carts = JSON.parse(localStorage.getItem('carts'));
+            let newCarts = carts.filter(cart => cart.id !== id && cart.name !== name);
+            localStorage.setItem("carts", JSON.stringify(newCarts));
+            trow.remove();
+            totalPrice();
+            getTotalTax();
+        }
+
+        // Função para mudar o amount no localStorage de acordo com o valor de um input
+        function getCartsAmounts() {
+            let carts = JSON.parse(localStorage.getItem('carts'));
+            let trow = this.event.target.parentElement.parentElement;
+            let name = trow.children[1].innerText;
+            let amount = trow.querySelector('.quantity').value;
+
+            carts.forEach(cart => {
+                if (cart.name == name) {
+                    cart.amount = amount
+                }
+            })
+            localStorage.setItem('carts', JSON.stringify(carts))
+        }
+
+        var total = (document.getElementById('total').innerText)
+
+        //Posta cada item do carrinho como uma order)item no backend 
+        function Accept() {
+            let carts = JSON.parse(localStorage.getItem('carts'));
+            carts.forEach(cart => {
+                fetch('http://localhost/routes/orders.php?action=get')
+                    .then(response => response.json())
+                    .then((data) => {
+                        data.forEach(order => {
+                            $.ajax({
+                                url: 'http://localhost/routes/orders.php?action=postorder',
+                                type: 'POST',
+                                data: {
+                                    productCode: JSON.stringify(parseInt(cart.id)),
+                                    orderCode: JSON.stringify(order.max),
+                                    amount: JSON.stringify(parseFloat(cart.amount)),
+                                    price: JSON.stringify(parseFloat(cart.newUnitPrice)),
+                                    tax: JSON.stringify(parseFloat(cart.tax)),
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                }
+                            })
+                            let code = cart.id;
+                            amount = cart.amount;
+                            location.href = `http://localhost/routes/orders.php?action=updateproduct&code=${code}&amount=${amount}`
+                        })
+                    })
+            })
+            setTimeout(function () {
+                localStorage.removeItem('carts');
+                window.location.href = "http://localhost/frontendhtml/history.html";
+            }, 300);
+        }
+
+        //Função para cancelar a compra, apagando a ultima order criada e voltando para pagina home
+        function Deny() {
+            fetch('http://localhost/routes/orders.php?action=get')
+                .then(response => response.json())
+                .then((data) => {
+                    data.forEach(code => {
+                        location.href=`http://localhost/routes/orders.php?action=del&code=${code.max}`
+                    }) 
+                })
+        }
+    </script>
+</body>
+
+</html>

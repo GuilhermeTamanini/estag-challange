@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css">
+    <title>Home</title>
+</head>
+<style>
+    .del-btn {
+        width: 100%;
+    }
+
+    #first-collun {
+        width: 12%;
+    }
+
+    #categories-select {
+        font-size: 18px;
+        border-radius: 5px;
+        width: 16%;
+    }
+
+    .nav-link #btn {
+        background-color: white;
+        width: 12%;
+        height: 24px;
+        display: inline;
+        font-size: 18px;
+        border-radius: 5px;
+    }
+
+    .sub-container {
+        width: 100%;
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+    }
+
+    .navbar .sub-input {
+        width: 15%;
+    }
+
+    .card-container .sub-input {
+        width: 80%;
+    }
+
+    #card-container {
+        display: inline-flex;
+        flex: 1;
+        flex-wrap: wrap;
+    }
+
+    .display-container {
+        width: 100%;
+        display: flex;
+    }
+
+    .display {
+        width: 100%;
+        height: 10%;
+        font-size: 28px;
+        color: rgb(139, 139, 139);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .table {
+        margin-bottom: 30px;
+    }
+
+    .left-container {
+        padding-right: 0;
+    }
+
+    .others {
+        display: flex;
+    }
+
+    .number-container {
+        width: 100%;
+        display: flex;
+        font-size: 22px;
+
+    }
+</style>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li class="nav-link">
+                    <h1>Suite Store</h1>
+                </li>
+                <li class="nav-link"><a href="home.html">Home</a></li>
+                <li class="nav-link"><a href="products.html">Products</a></li>
+                <li class="nav-link"><a href="categories.html">Categories</a></li>
+                <li class="nav-link"><a href="history.html">History</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="left-container">
+            <div class="sub-container">
+                <div class="card-container" id="card-container"></div>
+            </div>
+        </div>
+        <div class="right-container">
+            <div class="table-container">
+                <table class="table" id="table">
+                    <thead class="thead">
+                        <tr>
+                            <th id="first-collun">Id</th>
+                            <th id="other-collun">Name</th>
+                            <th id="other-collun">Amount</th>
+                            <th id="other-collun">Price</th>
+                            <th id="other-collun">Category</th>
+                            <th id="other-collun">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody" id="tbody">
+
+                    </tbody>
+                </table>
+                <div class="others" id="others">
+                    <div class="number-container">Tax: R$<div id="tax"></div>
+                    </div>
+                    <div class="number-container">Total price: R$<div id="total"></div>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="Cancel()" class="table-cancel-btn">Cancel</button>
+                    <button onclick="Finish();Execute()" class="table-finish-btn">Finish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //Adiciona o produto clicado ao carrinho
+        function addToCart(total) {
+            var history = JSON.parse(localStorage.getItem('history'))
+            var carts = JSON.parse(localStorage.getItem('carts')) || [];
+            var card = this.event.target.parentElement.parentElement;
+            var id = card.children[0].innerText;
+            var name = card.children[1].innerText;
+            var totalAmount = card.children[2].innerText;
+            var unitPrice = (card.children[3].innerText).replace('R$ ', '');
+            var category = card.children[4].innerText;
+            var tax = card.children[5].innerText;
+            var amount = 1;
+            var newUnitPrice = ((parseFloat(tax)) / 100) * (parseFloat(unitPrice)) + parseFloat(unitPrice)
+            var totalTax = ((parseFloat(tax)) / 100) * ((parseFloat(unitPrice)) * (parseInt(amount)))
+
+            const cart = { id, name, newUnitPrice, category, amount, totalAmount, tax, totalTax };
+
+            for (let i = 0; i < carts.length; i++) {
+                if (carts[i].name == name) {
+                    alert("Produto já está no carrinho!")
+                    return;
+                }
+            }
+
+            carts.push(cart);
+            localStorage.setItem('carts', JSON.stringify(carts));
+
+
+
+            renderCarts(cart);
+            totalPrice();
+            getTotalTax()
+        }
+
+        //Função que renderiza os items do carrinho
+        function renderCarts() {
+            carts = JSON.parse(localStorage.getItem('carts'));
+            document.getElementById("tbody").innerText = "";
+            let tbody = document.getElementById("tbody");
+            if (carts) {
+                carts.forEach(cart => {
+                    let trow = document.createElement("tr");
+                    trow.innerHTML =
+                        `  
+                    <td id="first-collun">${cart.id}</td>
+                    <td id="other-collun">${cart.name}</td>
+                    <td class="number-input" id="other-collun">
+                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); totalPrice();getTotalTax();getCartsAmounts()">-</button>
+                        <input class="quantity" min="1" max="${cart.totalAmount}" name="quantity" value="${cart.amount}" type="number" id="getCartAmount">
+                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); totalPrice();getTotalTax();getCartsAmounts()">+</button>
+                    </td>
+                    <td id="other-collun">${cart.newUnitPrice}</td>
+                    <td id="other-collun">${cart.category}</td>
+                    <td id="other-collun">
+                        <button class="del-btn" onclick="removeCart()">Delete</button>
+                    </td>
+                    `;
+                    tbody.append(trow);
+                })
+            }
+
+        }
+        renderCarts()
+        //Função que cria o card de produtos com as informações do produto
+        function renderProducts() {
+            document.getElementById("card-container").innerText = ""
+            let card = document.getElementById("card-container");
+            fetch("http://localhost/routes/products.php?action=get",).then(response => response.json()).then((data) => {
+                data.forEach(product => {
+                    if (parseInt(product.amount) > 0) {
+                        let div = document.createElement("div");
+                        div.innerHTML =
+                            `
+                            <p> ${product.productcode}</p>
+                            <p> ${product.productname}</p>
+                            <p>${product.amount}</p>
+                            <p>R$ ${product.price}</p>
+                            <p>${product.categoryname}</p>
+                            <p> ${product.tax}</p>
+                            <p><button class="btn" onclick="addToCart()">Add</button></p>
+                            `;
+                        card.append(div);
+                    }
+                })
+            })
+        }
+        renderProducts()
+
+        //Função para criar a order
+        function Execute() {
+            carts = JSON.parse(localStorage.getItem('carts'))
+            totalPrice()
+            getTotalTax()
+            let getTotal = (document.getElementById('total').innerText)
+            let getTax = (document.getElementById('tax').innerText)
+            location.href = `http://localhost/routes/orders.php?action=post&total=${getTotal}&tax=${getTax}`
+        }
+
+        //Função para calcular o valor de todos os items do carrinho
+        function totalPrice() {
+            let carts = JSON.parse(localStorage.getItem('carts'));
+            let amount = document.querySelectorAll('.quantity');
+            let getTotal = 0;
+
+            if (carts) {
+                carts.forEach((cart, ItemCart) => {
+                    let numberPrice = parseFloat(cart.newUnitPrice);
+                    let totalAmount = parseInt(carts[ItemCart].amount);
+                    getTotal += numberPrice * totalAmount;
+                    total = (getTotal).toFixed(2)
+                });
+                document.getElementById('total').innerText = parseFloat(total);
+            }
+        }
+        totalPrice();
+
+        //Função para calcular e mostrar a taxa de todos os produtos do carrinho
+        function getTotalTax() {
+            let carts = JSON.parse(localStorage.getItem('carts'));
+            let getTotalTax = 0;
+
+            if (carts) {
+                carts.forEach((cart, ItemCart) => {
+                    let totalAmount = parseInt(carts[ItemCart].amount);
+                    let totalTax = parseFloat(carts[ItemCart].totalTax);
+                    getTotalTax += totalTax * totalAmount;
+                    total = (getTotalTax).toFixed(2);
+                });
+                document.getElementById('tax').innerText = parseFloat(total);
+            }
+        }
+        getTotalTax()
+        //Função para remover item da tabela e do localStorage
+        function removeCart() {
+            let trow = this.event.target.parentElement.parentElement;
+            let id = trow.children[0].innerText;
+            let name = trow.children[1].innerText;
+            let carts = JSON.parse(localStorage.getItem('carts'));
+            let newCarts = carts.filter(cart => cart.id !== id && cart.name !== name);
+            localStorage.setItem("carts", JSON.stringify(newCarts));
+            trow.remove()
+            totalPrice()
+            getTotalTax()
+        }
+
+        //Função que redireciona para a pagina de finalizar a compra, também cria uma order
+        function Finish() {
+            let carts = JSON.parse(localStorage.getItem('carts'))
+
+            if (carts && carts.length > 0) {
+                document.getElementById('tbody').innerText = ""
+                document.getElementById('card-container').innerText = ""
+                renderProducts()
+                totalPrice()
+                getTotalTax()
+            } else {
+                console.log("carrinho vazio");
+            }
+        }
+
+        //Muda o amount no localStorage usando um valor de um determinado input
+        function getCartsAmounts() {
+            let carts = JSON.parse(localStorage.getItem('carts'));
+            let trow = this.event.target.parentElement.parentElement;
+            let name = trow.children[1].innerText;
+            let amount = trow.querySelector('.quantity').value;
+
+            carts.forEach(cart => {
+                if (cart.name == name) {
+                    cart.amount = amount
+                }
+            })
+
+            localStorage.setItem('carts', JSON.stringify(carts));
+        }
+
+        var total = (document.getElementById('total').innerText);
+
+        //Função para cancelar a compra
+        function Cancel() {
+            carts = JSON.parse(localStorage.getItem('carts'))
+            if (carts === null) {
+                alert('carrinho está vazio')
+                return;
+            }
+            localStorage.removeItem('carts');
+            window.location.reload()
+        }
+    </script>
+</body>
+
+</html>
