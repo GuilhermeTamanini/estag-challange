@@ -1,43 +1,205 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 #root {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
-  }
-  
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.react:hover {
-    filter: drop-shadow(0 0 2em #61dafbaa);
-  }
-  
-  @keyframes logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  @media (prefers-reduced-motion: no-preference) {
-    a:nth-of-type(2) .logo {
-      animation: logo-spin infinite 20s linear;
-    }
-  }
-  
-  .card {
-    padding: 2em;
-  }
-  
-  .read-the-docs {
-    color: #888;
-  }
-  
+  height: 100%;
+}
+.App {
+  height: 100%;
+}
+
+li {
+  list-style-type: none;
+}
+
+header {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  margin-top: 10px;
+  height: 100%;
+}
+
+.container input {
+  margin-bottom: 10px;
+}
+
+.left-container {
+  width: 45%;
+  display: left;
+  padding-right: 15px;
+  padding-left: 10px;
+
+}
+
+.right-container {
+  display: right;
+  width: 55%;
+  margin-left: 10px;
+  height: auto;
+  margin-right: 10px;
+  border-left: 1px solid;
+  padding-left: 20px;
+}
+
+.input {
+  width: 100%;
+  height: 24px;
+  margin-bottom: 2px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+.sub-input {
+  width: 31%;
+  height: 24px;
+  margin-left: 6px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+.add-btn {
+  width: 101%;
+  height: 30px;
+  background-color: rgb(103, 64, 247);
+  border: none;
+  margin-top: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+thead {
+  font-size: 20px;
+}
+
+tbody {
+  font-size: 18px;
+}
+
+.table-container {
+  height: 60%;
+}
+
+tbody tr:hover {
+  background-color: #ddd;
+}
+
+.others {
+  height: 40%;
+  text-align: end;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th,td {
+  border-bottom: 1px solid;
+  padding: 2px;
+}
+
+#other-collun {
+  border-left: 1px solid;
+}
+
+.table-finish-btn {
+  width: 40%;
+  height: 28px;
+  background-color: rgb(103, 64, 247);
+  border: none;
+  border-radius: 3px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.table-cancel-btn {
+  width: 40%;
+  height: 28px;
+  background-color: rgb(187, 182, 182);
+  border: none;
+  border-radius: 3px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.btn {
+  background-color: rgb(103, 64, 247);
+  height: 28px;
+  border-radius: 3px;
+  font-size: 15px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.del-btn {
+  border: none;
+  background-color: rgb(253, 69, 56);
+  border-radius: 3px;
+  font-size: 15px;
+  cursor: pointer;
+  width: 100%;
+  margin-right: 10px;
+}
+
+.edit-btn {
+  border: none;
+  background-color: rgb(252, 223, 57);
+  border-radius: 3px;
+  font-size: 15px;
+  cursor: pointer;
+  width: 45%;
+}
+
+.view-btn {
+  font-size: 18px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: rgb(103, 64, 247);
+}
+
+.quantity {
+  width: 35px;
+  text-align: center;
+  border: 0;
+}
+
+.quantity[type=number]::-webkit-inner-spin-button, .quantity[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.number-input {
+  display: flex;
+}
+
+.number-input button {
+  font-weight: bolder;
+  outline:none;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.aviso {
+  font-size: 22px;
+  color: grey;
+}
+
+/* .table-wrapper {
+  overflow-x: auto;
+} */
+
