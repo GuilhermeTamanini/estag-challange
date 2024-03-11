@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import { useState, useEffect } from 'react'
 import './History.css'
 
@@ -60,16 +59,15 @@ export default function History() {
                     </tr>
                 </thead>
                 <tbody id="tbody" className="tbody">
-                {history == null ? null
-                    :history.map(historyItem => {
-                        return(
-                            <tr>
-                                <td id="first-collun">{historyItem.code}</td>
-                                <td id="other-collun">R$ {historyItem.tax}</td>
-                                <td id="other-collun">R$ {historyItem.total}</td>
-                                <td id="other-collun"><button className="view-btn" onClick={(e) => {ViewProducts(e)}}>View</button></td>
-                            </tr>
-                        )
+                {history == null ? null :history.map(historyItem => {
+                    return(
+                        <tr key={historyItem.code}>
+                            <td id="first-collun">{historyItem.code}</td>
+                            <td id="other-collun">R$ {historyItem.tax}</td>
+                            <td id="other-collun">R$ {historyItem.total}</td>
+                            <td id="other-collun"><button className="view-btn" onClick={(e) => {ViewProducts(e)}}>View</button></td>
+                        </tr>
+                    )
                 })}
                 </tbody>
             </table>
@@ -85,23 +83,20 @@ export default function History() {
                             <th id="other-collun">Tax</th>
                         </thead>
                         <tbody id="modal-tbody">
-                            {products == null ? null
-                            :products.map((product) => {
+                            {products == null ? null :products.map((product) => {
                                 if (specialCharsRegex.test(product.name)) {
                                     return;
                                 }
                                 return(
-                                    <tr>
-                                        <td id="first-collun">{product.code}</td>
-                                        <td id="other-collun">{product.name}</td>
+                                    <tr key={product.productcode}>
+                                        <td id="first-collun">{product.productcode}</td>
+                                        <td id="other-collun">{product.productname}</td>
                                         <td id="other-collun">{product[3]}</td>
                                         <td id="other-collun">R$ {product.price}</td>
                                         <td id="other-collun">{product.tax}%</td>
                                     </tr>
                                 )
-                            })
-
-                            }
+                            })}
                         </tbody>
                     </table>
                 </div>

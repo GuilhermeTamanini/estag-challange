@@ -1,5 +1,6 @@
-/* eslint-disable react/jsx-key */
 import { useState } from 'react';
+
+import PurchasesTable from '../components/Tables/PurchasesTable/PurchasesTable';
 import './Purchase.css'
 
 export default function Purchase() {
@@ -58,19 +59,12 @@ export default function Purchase() {
                             {//Map para renderizar o carrinho
                                 carts.map((cart) =>{
                                     let totalAmount = parseInt(cart.amount);
-                                    totalAmount + 2
 
                                     if (specialCharsRegex.test(cart.product)) {
                                         return;
                                     }
                                     return(
-                                        <tr>
-                                            <td id='first-collun'>{cart.productcode}</td>
-                                            <td id="other-collun">{cart.product}</td>
-                                            <td id="other-collun">{totalAmount}</td>
-                                            <td id="other-collun">{cart.price}</td>
-                                            <td id="other-collun">{cart.category}</td>
-                                        </tr>
+                                        <PurchasesTable key={cart.productcode} cart={cart} totalAmount={totalAmount}/>
                                     )}
                                 ) 
                             }
@@ -79,7 +73,7 @@ export default function Purchase() {
                         {//Map para renderizar o valor total do preço e da taxa
                             totals.map((get) => {
                                 return(
-                                    <div className="others" id="others">
+                                    <div className="others" id="others" key={"Totals"}>
                                         <div className="number-container">Tax: R$<div id="tax">{get.totalTax}</div>
                                         </div>
                                         <div className="number-container">Total price: R$<div id="total" className='total'>{get.totalPrice}</div>

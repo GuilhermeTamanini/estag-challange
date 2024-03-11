@@ -80,17 +80,7 @@ header {
   color: white;
 }
 
-thead {
-  font-size: 20px;
-}
 
-tbody {
-  font-size: 18px;
-}
-
-.table-container {
-  height: 60%;
-}
 
 tbody tr:hover {
   background-color: #ddd;
