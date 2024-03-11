@@ -83,14 +83,11 @@ export default function History() {
                             <th id="other-collun">Tax</th>
                         </thead>
                         <tbody id="modal-tbody">
-                            {products == null ? null :products.map((product) => {
-                                if (specialCharsRegex.test(product.name)) {
-                                    return;
-                                }
+                            {products == null ? null :products.map((product) => { 
                                 return(
                                     <tr key={product.productcode}>
-                                        <td id="first-collun">{product.productcode}</td>
-                                        <td id="other-collun">{product.productname}</td>
+                                        <td id="first-collun">{product.code}</td>
+                                        <td id="other-collun">{product.name}</td>
                                         <td id="other-collun">{product[3]}</td>
                                         <td id="other-collun">R$ {product.price}</td>
                                         <td id="other-collun">{product.tax}%</td>
