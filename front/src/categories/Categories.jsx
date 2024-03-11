@@ -2,21 +2,18 @@
 import {useState, useEffect} from 'react'
 
 import './Categories.css'
-import './categories'
 
 export default function Categories() {
     const [categories, setCategories] = useState([])
+    const specialCharsRegex = /[!@#$%^&*()_{}[\]:;<>,.?~]/;
 
     useEffect(() =>  {
-        fetch('http://localhost/routes/categories.php?action=get', {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json',},
-        })
+        fetch('http://localhost/routes/categories.php?action=get')
         .then(response => response.json())
         .then(data => {
             setCategories(data)
         })
-        .catch(err => console.log(err))
+        .catch(error => console.log(error +"An error ocurred when fetching categories!"))
     }, [])
 
     return(
@@ -46,17 +43,22 @@ export default function Categories() {
                             </tr>
                         </thead>
                         <tbody className="tbody" id="categories-tbody">
-                            {categories.map((category) => (
-                            <tr>
-                                <td id="first-collun">{category?.code}</td>
-                                <td id="other-collun">{category?.name}</td>
-                                <td id="other-collun">{category?.tax}</td>
-                                <td id="other-collun" >
-                                    <button className="del-btn" onClick={() =>{location.href=`http://localhost/routes/categories.php?action=delete&code=${category?.code}`}}>Delete
-                                    </button>
-                                </td>
-                            </tr> 
-                            ))}
+                            {categories === null ? null
+                                :categories.map((category) => {
+                                    if (specialCharsRegex.test(category.name)) {
+                                        return;
+                                    }
+                                    return(
+                                        <tr>
+                                            <td id="first-collun">{category?.code}</td>
+                                            <td id="other-collun">{category?.name}</td>
+                                            <td id="other-collun">{category?.tax}</td>
+                                            <td id="other-collun" >
+                                                <button className="del-btn" onClick={() =>{location.href=`http://localhost/routes/categories.php?action=delete&code=${category.code}`}}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                         </tbody>
                     </table>
                 </div>

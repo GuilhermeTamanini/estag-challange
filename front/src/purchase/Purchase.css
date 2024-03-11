@@ -1,0 +1,15 @@
+.table-container {
+    width: 100%;
+}
+
+.others {
+    display: flex;
+
+}
+
+.number-container {
+    width: 100%;
+    display: flex;
+    font-size: 22px;
+
+}

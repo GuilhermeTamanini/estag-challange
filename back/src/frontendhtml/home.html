@@ -165,11 +165,7 @@
             carts.push(cart);
             localStorage.setItem('carts', JSON.stringify(carts));
 
-
-
-            renderCarts(cart);
-            totalPrice();
-            getTotalTax()
+            renderCarts();
         }
 
         //Função que renderiza os items do carrinho
@@ -205,7 +201,7 @@
         function renderProducts() {
             document.getElementById("card-container").innerText = ""
             let card = document.getElementById("card-container");
-            fetch("http://localhost/routes/products.php?action=get",).then(response => response.json()).then((data) => {
+            fetch("http://localhost/routes/products.php?action=get").then(response => response.json()).then((data) => {
                 data.forEach(product => {
                     if (parseInt(product.amount) > 0) {
                         let div = document.createElement("div");

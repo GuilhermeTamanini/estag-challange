@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: *");
 switch ($_REQUEST["action"]) {
     case 'post':
         postOrder($myPDO);
-        echo ("<script> location.href='/frontendhtml/purchase.html' </script>");
+        echo ("<script> location.href='http://localhost:5173/purchase' </script>");
         break;
         
     case 'postorder':
@@ -28,12 +28,12 @@ switch ($_REQUEST["action"]) {
 
     case 'del':
         delOrder($myPDO);
-        echo ("<script> location.href='/frontendhtml/home.html' </script>");
+        echo ("<script> location.href='http://localhost:5173/' </script>");
         break;
 
     case 'updateproduct':
         updateOrderProduct($myPDO);
-        echo ("<script> history.back(); </script>");
+        echo ("<script> location.href='http://localhost:5173/history'</script>");
         break;
         
 }

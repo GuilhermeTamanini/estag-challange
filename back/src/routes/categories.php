@@ -19,7 +19,7 @@ switch ($_REQUEST["action"]) {
             delCategory($myPDO);
             echo ("<script> history.back(); </script>");
         } catch (Exception $e) {
-            echo 'Erro ao deletar a categoria, possivelmente há um produto registrado a ela, quando há produtos registrados à uma determinada categoria ela não poderá ser excluída até todos os produtos que estão vinculados a ela sejão excluidos';
+            echo 'Erro ao deletar a categoria, possivelmente há um produto registrado a ela, quando há produtos registrados à uma determinada categoria ela não poderá ser excluída até todos os produtos que estão vinculados à ela sejão excluidos';
             echo '<button onclick="history.back()">Voltar</button>';
         }
         break;

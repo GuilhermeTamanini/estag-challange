@@ -1,36 +1,35 @@
 /* eslint-disable react/jsx-key */
 import {useState, useEffect} from 'react'
 
-import './Products.css'
-import './products'
-
 export default function Products() {
-    const [products, setProducts] = useState([])
-    const [categories, setCategories] = useState([])
-
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const specialCharsRegex = /[!@#$%^&*()_{}[\]:;<>,.?~]/;
+    
     useEffect(() =>  {
         fetch('http://localhost/routes/categories.php?action=get', {
             method: 'GET',
-            headers: {'Content-Type': 'application/json',},
+            headers: {'Content-Type': 'application/json'},
         })
         .then(response => response.json())
         .then(data => {
             setCategories(data)
         })
-        .catch(err => console.log(err))
+        .catch(error => console.log(error + "An error ocurred when fetching categories!"))
     }, [])
 
     useEffect(() =>  {
         fetch('http://localhost/routes/products.php?action=get', {
             method: 'GET',
-            headers: {'Content-Type': 'application/json',},
+            headers: {'Content-Type': 'application/json'},
         })
         .then(response => response.json())
         .then(data => {
             setProducts(data)
         })
-        .catch(err => console.log(err))
+        .catch(error => console.log(error + "An error ocurred when fetching products!"))
     }, [])
+
 
     return(
         <div className="container">
@@ -75,22 +74,45 @@ export default function Products() {
                             </tr>
                         </thead>
                         <tbody id="products-tbody">
-                            {products.map((product) => (
-                                <tr>
-                                    <td id='first-collun'>{product.productcode}</td>
-                                    <td id="other-collun">{product.productname}</td>
-                                    <td id="other-collun">{product.amount}</td>
-                                    <td id="other-collun"><button className='edit-btn'>Edit</button></td>
-                                    <td id="other-collun">{product.price}</td>
-                                    <td id="other-collun">{product.categoryname}</td>
-                                    <td id="other-collun"><button className="del-btn">Delete</button></td>
-                                </tr>
-                            ))}
+                            {products == null ? null
+                                :products.map((product) => {
+                                    if (specialCharsRegex.test(product.productname)) {
+                                        return;
+                                    }
+                                    return(
+                                        <tr key={product.productcode}>
+                                            <td id='first-collun'>{product.productcode}</td>
+                                            <td id="other-collun">{product.productname}</td>
+                                            <td id="other-collun">{product.amount}</td>
+                                            <td id="other-collun">
+                                                <input type="number" name="" id="add-amount" className='edit-p'/>
+                                                <button className='edit-btn'
+                                                onClick={(e) => 
+                                                    {   
+                                                        let btn = e.target.parentElement
+                                                        let inputValue = btn.children[0].value  
+                                                        let newAmount = parseFloat(inputValue) + parseInt(product.amount);
+                                                    
+                                                        if (inputValue <= 0) {
+                                                            alert("O valor tem que ser maior que zero!");
+                                                            return;
+                                                        }
+                                                        location.href = `http://localhost/routes/products.php?action=update&code=${product.productcode}&amount=${newAmount}`;
+                                                    }
+                                                }
+                                                >Edit
+                                                </button>
+                                            </td>
+                                            <td id="other-collun">{product.price}</td>
+                                            <td id="other-collun">{product.categoryname}</td>
+                                            <td id="other-collun"><button className="del-btn" onClick={() =>{location.href=`http://localhost/routes/products.php?action=delete&code=${product.productcode}`}}>Delete</button></td>
+                                        </tr>
+                                    )
+                                })}
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
-      
+        </div>   
     )
 }

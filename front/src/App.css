@@ -76,6 +76,10 @@ header {
   cursor: pointer;
 }
 
+.add-btn:hover {
+  color: white;
+}
+
 thead {
   font-size: 20px;
 }
@@ -121,15 +125,22 @@ th,td {
   font-size: 15px;
   cursor: pointer;
 }
+.table-finish-btn:hover{
+  color: white;
+}
 
 .table-cancel-btn {
   width: 40%;
   height: 28px;
-  background-color: rgb(187, 182, 182);
+  background-color: rgb(253, 69, 56);
   border: none;
   border-radius: 3px;
   font-size: 15px;
   cursor: pointer;
+}
+
+.table-cancel-btn:hover {
+  color: white;
 }
 
 .btn {
@@ -142,6 +153,16 @@ th,td {
   cursor: pointer;
 }
 
+.btn:hover {
+  color: white;
+}
+
+.edit-p {
+  width: 40%;
+  height: 80%;
+  margin-right: 5px;
+}
+
 .del-btn {
   border: none;
   background-color: rgb(253, 69, 56);
@@ -152,6 +173,10 @@ th,td {
   margin-right: 10px;
 }
 
+.del-btn:hover {
+  color: white;
+}
+
 .edit-btn {
   border: none;
   background-color: rgb(252, 223, 57);
@@ -160,6 +185,9 @@ th,td {
   cursor: pointer;
   width: 45%;
 }
+.edit-btn:hover {
+  color: white;
+}
 
 .view-btn {
   font-size: 18px;
@@ -167,6 +195,10 @@ th,td {
   border-radius: 3px;
   cursor: pointer;
   background-color: rgb(103, 64, 247);
+}
+
+.view-btn:hover {
+  color: white;
 }
 
 .quantity {
@@ -203,3 +235,21 @@ th,td {
   overflow-x: auto;
 } */
 
+.buttons button {
+  margin-left: 10px;
+}
+
+.others {
+  display: flex;
+}
+
+.number-container {
+  width: 100%;
+  display: flex;
+  font-size: 22px;
+}
+
+.quantity {
+  background-color: white;
+  font-size: 16px;
+}

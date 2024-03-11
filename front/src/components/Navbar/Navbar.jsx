@@ -7,6 +7,9 @@ export default function Navbar() {
             <nav className='navbar'>
                 <ul>
                     <li className='nav-link'>
+                        <h1>Suite store</h1>
+                    </li>
+                    <li className='nav-link'>
                         <a href="/">Home</a>
                     </li>
                     <li className='nav-link'>
