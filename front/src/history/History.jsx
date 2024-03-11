@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
-import HistoryTable from '../components/Tables/HistoryTable/HistoryTable'
-import Modaltable from '../components/Tables/HistoryTable/ModalTable'
+import HistoryTable from '../components/Tables/HistoryTables/HistoryTable'
+import Modaltable from '../components/Tables/HistoryTables/ModalTable'
 import './History.css'
 
 export default function History() {
