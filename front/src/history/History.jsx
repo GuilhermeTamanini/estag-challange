@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react'
+
+import HistoryTable from '../components/Tables/HistoryTable/HistoryTable'
+import Modaltable from '../components/Tables/HistoryTable/ModalTable'
 import './History.css'
 
 export default function History() {
@@ -61,12 +64,7 @@ export default function History() {
                 <tbody id="tbody" className="tbody">
                 {history == null ? null :history.map(historyItem => {
                     return(
-                        <tr key={historyItem.code}>
-                            <td id="first-collun">{historyItem.code}</td>
-                            <td id="other-collun">R$ {historyItem.tax}</td>
-                            <td id="other-collun">R$ {historyItem.total}</td>
-                            <td id="other-collun"><button className="view-btn" onClick={(e) => {ViewProducts(e)}}>View</button></td>
-                        </tr>
+                        <HistoryTable key={historyItem.code} historyItem={historyItem} ViewProducts={ViewProducts}/>
                     )
                 })}
                 </tbody>
@@ -83,15 +81,12 @@ export default function History() {
                             <th id="other-collun">Tax</th>
                         </thead>
                         <tbody id="modal-tbody">
-                            {products == null ? null :products.map((product) => { 
+                            {products == null ? null :products.map((product) => {
+                                if (specialCharsRegex.test(product.name)) {
+                                    return;
+                                }
                                 return(
-                                    <tr key={product.productcode}>
-                                        <td id="first-collun">{product.code}</td>
-                                        <td id="other-collun">{product.name}</td>
-                                        <td id="other-collun">{product[3]}</td>
-                                        <td id="other-collun">R$ {product.price}</td>
-                                        <td id="other-collun">{product.tax}%</td>
-                                    </tr>
+                                    <Modaltable key={product.code} product={product}/>
                                 )
                             })}
                         </tbody>
