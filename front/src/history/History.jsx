@@ -5,6 +5,7 @@ import './History.css'
 export default function History() {
     const [history, setHistory] = useState([])
     const [products, setProducts] = useState([])    
+    const specialCharsRegex = /[!@#$%^&*()_{}[\]:;<>,.?~]/;
 
     useEffect(() =>  {
         fetch('http://localhost/routes/products.php?action=get', {
@@ -86,6 +87,9 @@ export default function History() {
                         <tbody id="modal-tbody">
                             {products == null ? null
                             :products.map((product) => {
+                                if (specialCharsRegex.test(product.name)) {
+                                    return;
+                                }
                                 return(
                                     <tr>
                                         <td id="first-collun">{product.code}</td>

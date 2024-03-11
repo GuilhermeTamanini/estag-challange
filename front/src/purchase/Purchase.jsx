@@ -7,17 +7,13 @@ export default function Purchase() {
     const [totals] = useState(JSON.parse(localStorage.getItem("totals")) || []); 
     const specialCharsRegex = /[!@#$%^&*()_{}[\]:;<>,.?~]/;
     
+    //Função para deletar a order criada e remocer o totals do localStorage
     function Deny() {
-        fetch('http://localhost/routes/orders.php?action=get')
-            .then(response => response.json())
-            .then((data) => {
-                data.forEach(code => {
-                    console.log(data)
-                    localStorage.removeItem("totals")
-                    location.href=`http://localhost/routes/orders.php?action=del`;
-                }) 
-            })
+        localStorage.removeItem("totals")
+        location.href=`http://localhost/routes/orders.php?action=del`;
     }
+
+    //Função para postar as cada produto do carrinho
     function Accept() {
         let carts = JSON.parse(localStorage.getItem('carts'));
         carts.forEach(cart => {
@@ -25,20 +21,18 @@ export default function Purchase() {
                 .then(response => response.json())
                 .then((data) => {
                     data.forEach(order => {
-                        $.ajax({
-                            url: 'http://localhost/routes/orders.php?action=postorder',
-                            type: 'POST',
-                            data: {
-                                productCode: JSON.stringify(parseInt(cart.productcode)),
-                                orderCode: JSON.stringify(order.max),
-                                amount: JSON.stringify(parseInt(cart.amount)),
-                                price: JSON.stringify(parseFloat(cart.price)),
-                                tax: JSON.stringify(parseFloat(cart.tax)),
-                            },
-                            success: function (data) {
-                                console.log(data + "sucess")
-                            }
+                        let data = new FormData();
+                        data.append("productCode", JSON.stringify(cart.productcode));
+                        data.append("orderCode", JSON.stringify(order.max));
+                        data.append("amount", JSON.stringify(parseInt(cart.amount)));
+                        data.append("price", JSON.stringify(parseFloat(cart.price)));
+                        data.append("tax", JSON.stringify(parseFloat(cart.tax)));
+                        
+                        fetch('http://localhost/routes/orders.php?action=postorder',{
+                            method: "POST",
+                            body: data,
                         })
+
                         location.href = `http://localhost/routes/orders.php?action=updateproduct&code=${cart.productcode}&amount=${cart.amount}`
                         localStorage.removeItem('carts');
                         localStorage.removeItem('totals')
@@ -61,35 +55,39 @@ export default function Purchase() {
                             </tr>
                         </thead>
                         <tbody className="tbody" id="home-tbody">
-                           {//Map para renderizar o carrinho
-                            carts.map((cart) =>{
-                                let totalAmount = parseInt(cart.amount);
-                                totalAmount + 2
-                                
-                                if (specialCharsRegex.test(cart.product)) {
-                                    return;
-                                }
-                                return(
-                                    <tr>
-                                        <td id='first-collun'>{cart.productcode}</td>
-                                        <td id="other-collun">{cart.product}</td>
-                                        <td id="other-collun">{totalAmount}</td>
-                                        <td id="other-collun">{cart.price}</td>
-                                        <td id="other-collun">{cart.category}</td>
-                                    </tr>
-                                )}) }
+                            {//Map para renderizar o carrinho
+                                carts.map((cart) =>{
+                                    let totalAmount = parseInt(cart.amount);
+                                    totalAmount + 2
+
+                                    if (specialCharsRegex.test(cart.product)) {
+                                        return;
+                                    }
+                                    return(
+                                        <tr>
+                                            <td id='first-collun'>{cart.productcode}</td>
+                                            <td id="other-collun">{cart.product}</td>
+                                            <td id="other-collun">{totalAmount}</td>
+                                            <td id="other-collun">{cart.price}</td>
+                                            <td id="other-collun">{cart.category}</td>
+                                        </tr>
+                                    )}
+                                ) 
+                            }
                         </tbody>
                     </table>
-                        {totals.map((get) => {
-                            return(
-                                <div className="others" id="others">
-                                    <div className="number-container">Tax: R$<div id="tax">{get.totalTax}</div>
+                        {//Map para renderizar o valor total do preço e da taxa
+                            totals.map((get) => {
+                                return(
+                                    <div className="others" id="others">
+                                        <div className="number-container">Tax: R$<div id="tax">{get.totalTax}</div>
+                                        </div>
+                                        <div className="number-container">Total price: R$<div id="total" className='total'>{get.totalPrice}</div>
+                                        </div>
                                     </div>
-                                    <div className="number-container">Total price: R$<div id="total" className='total'>{get.totalPrice}</div>
-                                    </div>
-                                </div>
+                                )}
                             )
-                        })}
+                        }
                     <div>
                         <h1>Finalizar a compra?</h1>
                     </div>
