@@ -23,7 +23,7 @@ export default function Categories() {
                 <form action="http://localhost/routes/categories.php?action=post" method="POST">
                     <div>
                         <input type="text" name="name" className="input" id="category-input" placeholder="Category name"
-                            pattern="[a-zA-Z0-9]+" title="Apenas letras e números!" maxLength="100" required />
+                            pattern="[a-zA-Z0-9]+" title="Apenas letras e números!" maxLength="90" required />
                     </div>
                     <div>
                         <input type="number" name="tax" className="input" id="tax-input" placeholder="Tax quantity"

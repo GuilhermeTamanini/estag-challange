@@ -109,6 +109,9 @@ th,td {
   max-width: 400px;
   word-wrap: break-word
 }
+.category-p {
+  word-wrap: break-word
+}
 
 #other-collun {
   border-left: 1px solid;
@@ -211,6 +214,7 @@ th,td {
 
 .number-input {
   display: flex;
+  flex-direction: row;
 }
 
 .number-input button {

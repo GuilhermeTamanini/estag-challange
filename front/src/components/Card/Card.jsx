@@ -6,7 +6,7 @@ export default function Card({product, getCarts}) {
             <p><strong>Code:</strong> {product.productcode}</p>
             <p><strong>Amount:</strong> {product.amount}</p>
             <p><strong>Price:</strong> R$ {product.price}</p>
-            <p><strong>Category:</strong> {product.categoryname}</p>
+            <p className="category-p"><strong>Category:</strong> {product.categoryname}</p>
             <p><strong>Tax:</strong> {product.tax}%</p>
             <p>
                 <button className="btn" onClick={()=> 
