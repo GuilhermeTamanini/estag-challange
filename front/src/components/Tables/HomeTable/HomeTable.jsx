@@ -1,22 +1,6 @@
 /* eslint-disable react/prop-types */
 
-export default function HomeTable({cart, totalAmount, getCarts}) {
-
-    //Função para mudar o amount no local storage conforme o valor do input muda
-    function GetCartsAmounts(e) {
-        let carts = JSON.parse(localStorage.getItem('carts'));
-        let trow = e.target.parentElement.parentElement;
-        let name = trow.children[1].innerText;
-        let amount = trow.querySelector(".quantity").value;
-
-        carts.forEach(cart => {
-            if (cart.product == name) {
-                cart.amount = parseInt(amount)
-            }
-        })
-        localStorage.setItem('carts', JSON.stringify(carts));
-    }
-
+export default function HomeTable({cart, totalAmount, getCarts, GetCartsAmounts}) {
     return(
         <tr key={cart.productcode}>
             <td id='first-collun'>{cart.productcode}</td>

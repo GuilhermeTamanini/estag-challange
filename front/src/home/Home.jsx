@@ -47,6 +47,22 @@ export default function Home() {
         setTax((parseFloat(getTotalTax)).toFixed(2))
     }
 
+    //Função para mudar o amount no local storage conforme o valor do input muda
+    function GetCartsAmounts(e) {
+        let carts = JSON.parse(localStorage.getItem('carts'));
+        let trow = e.target.parentElement.parentElement;
+        let name = trow.children[1].innerText;
+        let amount = trow.querySelector(".quantity").value;
+
+        carts.forEach(cart => {
+            if (cart.product == name) {
+                cart.amount = parseInt(amount)
+            }
+        })
+        localStorage.setItem('carts', JSON.stringify(carts));
+        getTotal()
+    }
+
     //Função para postar a order
     function Finish() {
         let getTotals = JSON.parse(localStorage.getItem('totals')) || []
@@ -103,7 +119,7 @@ export default function Home() {
                                 return;
                             }
                             return(
-                                <HomeTable cart={cart} totalAmount={totalAmount} getCarts={getCarts}/>
+                                <HomeTable cart={cart} totalAmount={totalAmount} getCarts={getCarts} GetCartsAmounts={GetCartsAmounts}/>
                             )}) }
                     </tbody>
                 </table>
