@@ -1,8 +1,10 @@
 /* eslint-disable react/jsx-key */
+import { useEffect, useState } from 'react'
 import './Card.css'
 import Card from '../components/Card/Card';
 import HomeTable from '../components/Tables/HomeTable/HomeTable';
-import { useEffect, useState } from 'react'
+import Navbar from '../components/Navbar/Navbar'
+
 
 export default function Home() {
     const [carts, setCarts] = useState([]);
@@ -80,6 +82,8 @@ export default function Home() {
     
 
     return(
+        <div>
+            <Navbar name={"cart"} page={"Home"} number={1} type={"name"}/>
         <div className="container">
             <div className="left-container">
                 <div className='sub-container'>
@@ -141,5 +145,6 @@ export default function Home() {
                 </div>
             </div>
         </div> 
+        </div>
     )
 }

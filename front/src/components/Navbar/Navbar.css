@@ -40,4 +40,15 @@ li {
     font-size: 40px;
     color: black;
 }
+.nav-select div {
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+.nav-select-text {
+    margin-left: 10px;
+    font-size: 24px;
+}
+
+
 

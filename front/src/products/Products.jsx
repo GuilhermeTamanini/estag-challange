@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 
 import ProductsTable from '../components/Tables/ProductsTable/ProductsTable';
+import Navbar from '../components/Navbar/Navbar';
 
 export default function Products() {
     const [products, setProducts] = useState([]);
@@ -32,6 +33,8 @@ export default function Products() {
     }, [])
 
     return(
+        <div>
+            <Navbar page={"Products"} number={1} name={"products"} type={"name"}/>
         <div className="container">
             <div className="left-container">
                 <main>
@@ -61,7 +64,7 @@ export default function Products() {
             </div>
             <div className="right-container">
                 <div className="table-wrapper">
-                    <table>
+                    <table id="table">
                         <thead>
                             <tr>
                                 <th id="first-collun">Id</th>
@@ -87,6 +90,7 @@ export default function Products() {
                     </table>
                 </div>
             </div>
-        </div>   
+        </div>
+        </div>
     )
 }

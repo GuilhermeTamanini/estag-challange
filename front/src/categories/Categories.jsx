@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 
 import CategoriesTable from '../components/Tables/CategoriesTable/CategoriesTable';
 import './Categories.css'
+import Navbar from '../components/Navbar/Navbar';
 
 export default function Categories() {
     const [categories, setCategories] = useState([])
@@ -18,6 +19,8 @@ export default function Categories() {
     }, [])
 
     return(
+        <div>
+        <Navbar page={"Categories"} number={1} name={"categories"} type={"name"}/>
         <div className="container">
             <div className="left-container">
                 <form action="http://localhost/routes/categories.php?action=post" method="POST">
@@ -34,7 +37,7 @@ export default function Categories() {
             </div>
             <div className="right-container">
                 <div className="table-wrapper">
-                    <table className="table">
+                    <table className="table" id="table">
                         <thead className="thead">
                             <tr>
                                 <th id="first-collun">Id</th>
@@ -57,6 +60,7 @@ export default function Categories() {
                     </table>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

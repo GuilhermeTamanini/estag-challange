@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import HistoryTable from '../components/Tables/HistoryTable/HistoryTable'
 import Modaltable from '../components/Tables/HistoryTable/ModalTable'
+import Navbar from '../components/Navbar/Navbar'
 import './History.css'
 
 export default function History() {
@@ -39,6 +40,8 @@ export default function History() {
     }
 
     return(
+        <div>
+            <Navbar page={"History"} number={0} name={"history"} type={"code"}/>
         <div>
             <table className="table" id="table">
                 <thead className="thead">
@@ -85,6 +88,7 @@ export default function History() {
             </div>
 
             <div id="total"></div>
+        </div>
         </div>
     )
 }

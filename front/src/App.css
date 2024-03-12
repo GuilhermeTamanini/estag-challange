@@ -106,7 +106,7 @@ table {
 th,td {
   border-bottom: 1px solid;
   padding: 2px;
-  max-width: 400px;
+  max-width: 200px;
   word-wrap: break-word
 }
 .category-p {
