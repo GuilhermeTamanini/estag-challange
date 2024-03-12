@@ -56,32 +56,30 @@ export default function Purchase() {
                             </tr>
                         </thead>
                         <tbody className="tbody" id="home-tbody">
-                            {//Map para renderizar o carrinho
-                                carts.map((cart) =>{
-                                    let totalAmount = parseInt(cart.amount);
-
-                                    if (specialCharsRegex.test(cart.product)) {
-                                        return;
-                                    }
-                                    return(
-                                        <PurchasesTable key={cart.productcode} cart={cart} totalAmount={totalAmount}/>
-                                    )}
+                            {//map para renderizar a table de compra
+                            carts == null ? null : carts.map((cart) =>{
+                                let totalAmount = parseInt(cart.amount);
+                                if (specialCharsRegex.test(cart.product)) {
+                                    return;
+                                }
+                                return(
+                                    <PurchasesTable key={cart.productcode} cart={cart} totalAmount={totalAmount}/>
+                                )}
                                 ) 
                             }
                         </tbody>
                     </table>
                         {//Map para renderizar o valor total do preço e da taxa
-                            totals.map((get) => {
-                                return(
-                                    <div className="others" id="others" key={"Totals"}>
-                                        <div className="number-container">Tax: R$<div id="tax">{get.totalTax}</div>
-                                        </div>
-                                        <div className="number-container">Total price: R$<div id="total" className='total'>{get.totalPrice}</div>
-                                        </div>
+                        totals.map((get) => {
+                            return(
+                                <div className="others" id="others" key={"Totals"}>
+                                    <div className="number-container">Tax: R$<div id="tax">{get.totalTax}</div>
                                     </div>
-                                )}
+                                    <div className="number-container">Total price: R$<div id="total" className='total'>{get.totalPrice}</div>
+                                    </div>
+                                </div>
                             )
-                        }
+                        })}
                     <div>
                         <h1>Finalizar a compra?</h1>
                     </div>

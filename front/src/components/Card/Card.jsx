@@ -2,7 +2,7 @@
 export default function Card({product}) {
     return(
         <div>
-            {console.log(product)}
+
             <p>{product.productcode}</p>
             <p>{product.productname}</p>
             <p>{product.amount}</p>

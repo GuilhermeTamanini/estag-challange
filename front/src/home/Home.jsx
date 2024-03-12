@@ -4,8 +4,8 @@ import Card from '../components/Card/Card';
 import HomeTable from '../components/Tables/HomeTable/HomeTable';
 import { useEffect, useState } from 'react'
 
-function Home() {
-    const [carts, setCarts] = useState(JSON.parse(localStorage.getItem('carts')) || []);
+export default function Home() {
+    const [carts, setCarts] = useState([]);
     const [products, setProducts] = useState([]);
     const [total, setTotal] = useState(0);
     const [tax, setTax] = useState(0);
@@ -18,14 +18,11 @@ function Home() {
        .then(data => setProducts(data))
        .catch(error => console.log(error + "An error ocurred when fetching products!"))
     },[])
-
-    useEffect (() => {
-        setCarts(JSON.parse(localStorage.getItem('carts')) || [])
-    }, [carts,products])
     
     //Busca a taxa total e o  preço total
     useEffect (() => {
         getTotal()
+        setCarts(JSON.parse(localStorage.getItem('carts')) || [])
     }, [carts])
     
     // //Função que cria o preço total e a taxa total
@@ -57,13 +54,15 @@ function Home() {
             console.log("carrinho vazio");
         }
     }
+    
 
     return(
         <div className="container">
             <div className="left-container">
                 <div className='sub-container'>
                     <div className="card-container" id="card-container">
-                        {products == null ? null :products.map((product) => {
+                        {//Map para renderizar o card de produtos
+                        products == null ? null :products.map((product) => {
                             if (specialCharsRegex.test(product.productname)) {
                                 return;
                             }
@@ -71,7 +70,7 @@ function Home() {
                              return;
                             }
                             return(
-                                 <Card product={product}/>
+                                 <Card product={product} />
                             )
                         })}
                     </div>
@@ -90,11 +89,9 @@ function Home() {
                         </tr>
                     </thead>
                     <tbody className="tbody" id="home-tbody">
-                       {carts == null ? null
-                       //Map para renderizar o carrinho
-                        :carts.map((cart) =>{
-                            let totalAmount = parseInt(cart.amount);
-
+                       {//Map para renderizar a table da home
+                       carts == null ? null :carts.map((cart) =>{
+                            let totalAmount = parseInt(cart.amount);    
                             if (specialCharsRegex.test(cart.product)) {
                                 return;
                             }
@@ -125,5 +122,3 @@ function Home() {
         
     )
 }
-
-export default Home;

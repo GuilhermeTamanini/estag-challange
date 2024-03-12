@@ -15,7 +15,7 @@ const Router = () => {
                 <Route Component = { Categories } path="/categories"/>
                 <Route Component = { History } path="/history" />
                 <Route Component = { Products } path="/products" />
-                <Route Component = { Purchase } path="/purchase" />
+                <Route Component = { Purchase } path="/purchase" />         
             </Routes>
         </BrowserRouter>
     )

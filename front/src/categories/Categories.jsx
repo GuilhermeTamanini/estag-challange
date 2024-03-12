@@ -44,15 +44,15 @@ export default function Categories() {
                             </tr>
                         </thead>
                         <tbody className="tbody" id="categories-tbody">
-                            {categories === null ? null
-                                :categories.map((category) => {
-                                    if (specialCharsRegex.test(category.name)) {
-                                        return;
-                                    }
-                                    return(
-                                        <CategoriesTable category={category}/>
-                                    )
-                                })}
+                            {//Map para renderizar a table de categorias
+                            categories === null ? null :categories.map((category) => {
+                                if (specialCharsRegex.test(category.name)) {
+                                    return;
+                                }
+                                return(
+                                    <CategoriesTable category={category}/>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>

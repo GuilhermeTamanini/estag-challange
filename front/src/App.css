@@ -80,7 +80,13 @@ header {
   color: white;
 }
 
+thead {
+  font-size: 24px;
+}
 
+tbody {
+  font-size: 20px;
+}
 
 tbody tr:hover {
   background-color: #ddd;

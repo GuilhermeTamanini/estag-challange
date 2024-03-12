@@ -7,19 +7,7 @@ import './History.css'
 export default function History() {
     const [history, setHistory] = useState([])
     const [products, setProducts] = useState([])    
-    const specialCharsRegex = /[!@#$%^&*()_{}[\]:;<>,.?~]/;
-
-    useEffect(() =>  {
-        fetch('http://localhost/routes/products.php?action=get', {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'},
-        })
-        .then(response => response.json())
-        .then(data => {
-            setProducts(data)
-        })
-        .catch(error => console.log(error))
-    }, [])
+    const specialCharsRegex = /[!@#$%^&*()_{}[\]:;<>,.?~]/;  
 
     useEffect(() =>  {
         fetch('http://localhost/routes/orders.php?action=getall')
@@ -62,7 +50,8 @@ export default function History() {
                     </tr>
                 </thead>
                 <tbody id="tbody" className="tbody">
-                {history == null ? null :history.map(historyItem => {
+                {//Map para renderizar a table do historico
+                history == null ? null :history.map(historyItem => {
                     return(
                         <HistoryTable key={historyItem.code} historyItem={historyItem} ViewProducts={ViewProducts}/>
                     )
@@ -81,7 +70,8 @@ export default function History() {
                             <th id="other-collun">Tax</th>
                         </thead>
                         <tbody id="modal-tbody">
-                            {products == null ? null :products.map((product) => {
+                            {// Map prara renderizar a table do modal
+                            products == null ? null :products.map((product) => {
                                 if (specialCharsRegex.test(product.name)) {
                                     return;
                                 }

@@ -74,8 +74,8 @@ export default function Products() {
                             </tr>
                         </thead>
                         <tbody id="products-tbody">
-                            {products == null ? null
-                                :products.map((product) => {
+                            {//Map para renderizar a table de produtos
+                            products == null ? null :products.map((product) => {
                                     if (specialCharsRegex.test(product.productname)) {
                                         return;
                                     }
