@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-export default function HomeTable({cart, totalAmount}) {
+export default function HomeTable({cart, totalAmount, getCarts}) {
 
     //Função para mudar o amount no local storage conforme o valor do input muda
     function GetCartsAmounts(e) {
@@ -53,6 +53,7 @@ export default function HomeTable({cart, totalAmount}) {
                     let code = cart.productcode;
                     let newCarts = carts.filter(cart => cart.productcode !== code);
                     localStorage.setItem("carts", JSON.stringify(newCarts));
+                    getCarts()
                 }}
             >Delete</button></td>
         </tr>

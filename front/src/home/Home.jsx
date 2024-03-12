@@ -16,16 +16,23 @@ export default function Home() {
        fetch("http://localhost/routes/products.php?action=get")
        .then(response => response.json())
        .then(data => setProducts(data))
-       .catch(error => console.log(error + "An error ocurred when fetching products!"))
+       .catch(error => console.log(error))
     },[])
-    
+
+    useEffect (()=> {
+        setCarts(JSON.parse(localStorage.getItem('carts')) || [])
+    },[])
+
     //Busca a taxa total e o  preço total
     useEffect (() => {
         getTotal()
-        setCarts(JSON.parse(localStorage.getItem('carts')) || [])
     }, [carts])
     
-    // //Função que cria o preço total e a taxa total
+    function getCarts(){
+        setCarts(JSON.parse(localStorage.getItem('carts')) || [])
+    }
+
+    //Função que cria o preço total e a taxa total
     function getTotal() {
         let carts = JSON.parse(localStorage.getItem('carts'));
         let getTotalTax = 0;
@@ -51,7 +58,7 @@ export default function Home() {
             location.href = `http://localhost/routes/orders.php?action=post&total=${total}&tax=${tax}`
             localStorage.setItem("totals", JSON.stringify(getTotals))
         } else {
-            console.log("carrinho vazio");
+            alert("carrinho vazio");
         }
     }
     
@@ -70,7 +77,7 @@ export default function Home() {
                              return;
                             }
                             return(
-                                 <Card product={product} />
+                                 <Card product={product} getCarts={getCarts}/>
                             )
                         })}
                     </div>
@@ -96,7 +103,7 @@ export default function Home() {
                                 return;
                             }
                             return(
-                                <HomeTable cart={cart} totalAmount={totalAmount} />
+                                <HomeTable cart={cart} totalAmount={totalAmount} getCarts={getCarts}/>
                             )}) }
                     </tbody>
                 </table>
@@ -117,8 +124,6 @@ export default function Home() {
                     <button className="table-finish-btn" onClick={Finish}>Finish</button>
                 </div>
             </div>
-        </div>
-        
-        
+        </div> 
     )
 }

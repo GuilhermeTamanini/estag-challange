@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-export default function Card({product}) {
+export default function Card({product, getCarts}) {
     return(
         <div>
 
@@ -39,6 +39,7 @@ export default function Card({product}) {
                         }
                         carts.push(cart)
                         localStorage.setItem('carts', JSON.stringify(carts))
+                        getCarts()
                     }
                 }>Add
                </button>
