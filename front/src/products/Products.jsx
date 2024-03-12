@@ -16,7 +16,7 @@ export default function Products() {
         .then(data => {
             setCategories(data)
         })
-        .catch(error => console.log(error + "An error ocurred when fetching categories!"))
+        .catch(error => console.log(error))
     }, [])
 
     useEffect(() =>  {
@@ -28,7 +28,7 @@ export default function Products() {
         .then(data => {
             setProducts(data)
         })
-        .catch(error => console.log(error + "An error ocurred when fetching products!"))
+        .catch(error => console.log(error))
     }, [])
 
     return(
@@ -38,7 +38,7 @@ export default function Products() {
                     <form action="http://localhost/routes/products.php?action=post" method="POST">
                         <div>
                             <input className="input" id="product-input" type="text" name="name" placeholder="Product name"
-                                pattern="[a-zA-Z0-9]+" title="Apenas letras e números!" required />
+                                pattern="[a-zA-Z0-9]+" title="Apenas letras e números!" maxLength={90} required />
                         </div>
                         <div className="sub-inputs">
                             <input className="sub-input" id="amount-input" type="number" name="amount" placeholder="Amount"

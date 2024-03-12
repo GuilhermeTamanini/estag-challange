@@ -41,7 +41,6 @@ export default function Purchase() {
                 })
         })
     }
-
     return(
         <div className="container">
             <div className="table-container">

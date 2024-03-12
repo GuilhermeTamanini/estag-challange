@@ -14,7 +14,7 @@ export default function Categories() {
         .then(data => {
             setCategories(data)
         })
-        .catch(error => console.log(error +"An error ocurred when fetching categories!"))
+        .catch(error => console.log(error))
     }, [])
 
     return(
