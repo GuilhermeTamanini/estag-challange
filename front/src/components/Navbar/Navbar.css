@@ -50,5 +50,9 @@ li {
     font-size: 24px;
 }
 
-
-
+#filter-input {
+    background-color: rgb(103, 64, 247);
+    border: 0.2px solid rgb(70, 28, 223);
+    border-radius: 5px;
+    height: 25px;
+}

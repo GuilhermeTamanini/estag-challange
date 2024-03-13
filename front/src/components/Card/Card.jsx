@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
+import "./Card.css"
+
 export default function Card({product, getCarts}) {
     return(
-        <div>
+        <div id="card-f">
             <h1>{product.productname}</h1>
             <p><strong>Code:</strong> {product.productcode}</p>
             <p><strong>Amount:</strong> {product.amount}</p>

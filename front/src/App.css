@@ -255,3 +255,18 @@ th,td {
   background-color: white;
   font-size: 16px;
 }
+
+.filter-container {
+  display: flex;
+  align-items: center;
+}
+
+.filter-p {
+  font-size: 24px;
+}
+
+.clean-btn {
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}

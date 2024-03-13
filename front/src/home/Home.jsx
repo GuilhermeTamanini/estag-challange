@@ -9,8 +9,8 @@ import Navbar from '../components/Navbar/Navbar'
 export default function Home() {
     const [carts, setCarts] = useState([]);
     const [products, setProducts] = useState([]);
-    const [total, setTotal] = useState(0);
     const [tax, setTax] = useState(0);
+    const [total, setTotal] = useState(0);
     const specialCharsRegex = /[!@#$%^&*()_{}[\]:;<>,.?~]/;
 
     //busca os produtos
@@ -79,17 +79,40 @@ export default function Home() {
             alert("carrinho vazio");
         }
     }
-    
 
+    function Filter() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("filter-inp");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("card-container");
+        tr = table.getElementsByTagName("div");
+        
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("p")[3];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+    
     return(
         <div>
             <Navbar name={"cart"} page={"Home"} number={1} type={"name"}/>
         <div className="container">
             <div className="left-container">
+                <div className="filter-container">
+                    <p className='filter-p'>Filter products by category:</p>
+                    <input type="text" className='sub-input' id='filter-inp' placeholder='Category name:' onKeyUp={Filter}/>
+                </div>
                 <div className='sub-container'>
                     <div className="card-container" id="card-container">
                         {//Map para renderizar o card de produtos
-                        products == null ? null :products.map((product) => {
+                        products != null? products.map((product) => {
                             if (specialCharsRegex.test(product.productname)) {
                                 return;
                             }
@@ -99,7 +122,7 @@ export default function Home() {
                             return(
                                  <Card product={product} getCarts={getCarts}/>
                             )
-                        })}
+                        }): null}
                     </div>
                 </div>
             </div>
