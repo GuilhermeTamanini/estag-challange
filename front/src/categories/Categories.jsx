@@ -17,7 +17,7 @@ export default function Categories() {
         })
         .catch(error => console.log(error))
     }, [])
-
+    
     return(
         <div>
         <Navbar page={"Categories"} number={1} name={"categories"} type={"name"}/>

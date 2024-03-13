@@ -9,7 +9,11 @@ function postProduct($myPDO)
     $price = $_POST["price"];
     $category_code = $_POST["category_code"];
 
-    $productPost = $myPDO->prepare("INSERT INTO products (name, amount, price, category_code ) VALUES ('{$name}', '{$amount}', '{$price}', '{$category_code}')");
+    $productPost = $myPDO->prepare("INSERT INTO products (name, amount, price, category_code ) VALUES (:name, :amount, :price, :category_code)");
+    $productPost->bindParam(":name", $name);
+    $productPost->bindParam(":amount", $amount);
+    $productPost->bindParam(":price", $price);
+    $productPost->bindParam(":category_code", $category_code);
     $productPost->execute();
 }
 
