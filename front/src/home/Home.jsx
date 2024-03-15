@@ -54,7 +54,6 @@ export default function Home() {
     function GetCartsAmounts(e) {
         let carts = JSON.parse(localStorage.getItem('carts'));
         let trow = e.target.parentElement.parentElement.parentElement;
-        console.log(trow)
         let name = trow.children[1].innerText;
         let amount = trow.querySelector(".quantity").value;
 
