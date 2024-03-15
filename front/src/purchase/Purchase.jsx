@@ -10,7 +10,7 @@ export default function Purchase() {
     
     //Função para deletar a order criada e remocer o totals do localStorage
     function Deny() {
-        localStorage.removeItem("totals")
+        localStorage.removeItem("totals");
         location.href=`http://localhost/routes/orders.php?action=del`;
     }
 
@@ -35,7 +35,7 @@ export default function Purchase() {
                         })
                         location.href = `http://localhost/routes/orders.php?action=updateproduct&code=${cart.productcode}&amount=${cart.amount}`
                         localStorage.removeItem('carts');
-                        localStorage.removeItem('totals')
+                        localStorage.removeItem('totals');
                     })
                 })
         })

@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-key */
-import { useEffect, useState } from 'react'
-import './Card.css'
+import { useEffect, useState } from 'react';
+import './Card.css';
 import Card from '../components/Card/Card';
 import HomeTable from '../components/Tables/HomeTable/HomeTable';
-import Navbar from '../components/Navbar/Navbar'
+import Navbar from '../components/Navbar/Navbar';
 import { isAuthenticated } from '../auth';
 
 
@@ -19,20 +19,20 @@ export default function Home() {
        fetch("http://localhost/routes/products.php?action=get")
        .then(response => response.json())
        .then(data => setProducts(data))
-       .catch(error => console.log(error))
-    },[])
+       .catch(error => console.log(error));
+    },[]);
 
     useEffect (()=> {
-        setCarts(JSON.parse(localStorage.getItem('carts')) || [])
-    },[])
+        setCarts(JSON.parse(localStorage.getItem('carts')) || []);
+    },[]);
 
     //Busca a taxa total e o  preço total
     useEffect (() => {
-        getTotal()
-    }, [carts])
+        getTotal();
+    }, [carts]);
     
     function getCarts(){
-        setCarts(JSON.parse(localStorage.getItem('carts')) || [])
+        setCarts(JSON.parse(localStorage.getItem('carts')) || []);
     }
 
     //Função que cria o preço total e a taxa total
@@ -43,11 +43,12 @@ export default function Home() {
 
         if(carts){
             carts.forEach(cart => {
-                getTotalTax += parseFloat(cart.totalTax) * cart.amount
-                getTotalPrice += parseFloat(cart.newUnitPrice) * cart.amount
-            });}
-        setTotal((parseFloat(getTotalPrice)).toFixed(2))
-        setTax((parseFloat(getTotalTax)).toFixed(2))
+                getTotalTax += parseFloat(cart.totalTax) * cart.amount;
+                getTotalPrice += parseFloat(cart.newUnitPrice) * cart.amount;
+            });
+        }
+        setTotal((parseFloat(getTotalPrice)).toFixed(2));
+        setTax((parseFloat(getTotalTax)).toFixed(2));
     }
 
     //Função para mudar o amount no local storage conforme o valor do input muda
@@ -59,24 +60,24 @@ export default function Home() {
 
         carts.forEach(cart => {
             if (cart.product == name) {
-                cart.amount = parseInt(amount)
+                cart.amount = parseInt(amount);
             }
         })
         localStorage.setItem('carts', JSON.stringify(carts));
-        getTotal()
+        getTotal();
     }
 
     //Função para postar a order
     function Finish() {
-        let getTotals = JSON.parse(localStorage.getItem('totals')) || []
-        let carts = JSON.parse(localStorage.getItem('carts'))
+        let getTotals = JSON.parse(localStorage.getItem('totals')) || [];
+        let carts = JSON.parse(localStorage.getItem('carts'));
         if(isAuthenticated() == true || isAuthenticated() == false) {
             if (carts && carts.length > 0) {
-                let totals = {totalPrice: total, totalTax:tax}
-                getTotals.push(totals)
+                let totals = {totalPrice: total, totalTax:tax};
+                getTotals.push(totals);
                 getTotal();
-                location.href = `http://localhost/routes/orders.php?action=post&total=${total}&tax=${tax}`
-                localStorage.setItem("totals", JSON.stringify(getTotals))
+                location.href = `http://localhost/routes/orders.php?action=post&total=${total}&tax=${tax}`;
+                localStorage.setItem("totals", JSON.stringify(getTotals));
             } else {
                 alert("carrinho vazio");
             }

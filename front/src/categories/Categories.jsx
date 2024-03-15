@@ -1,22 +1,22 @@
 /* eslint-disable react/jsx-key */
-import {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react';
 
 import CategoriesTable from '../components/Tables/CategoriesTable/CategoriesTable';
-import './Categories.css'
+import './Categories.css';
 import Navbar from '../components/Navbar/Navbar';
 
 export default function Categories() {
-    const [categories, setCategories] = useState([])
+    const [categories, setCategories] = useState([]);
     const specialCharsRegex = /[!@#$%^&*()_{}[\]:;<>,.?~]/;
 
     useEffect(() =>  {
         fetch('http://localhost/routes/categories.php?action=get')
         .then(response => response.json())
         .then(data => {
-            setCategories(data)
+            setCategories(data);
         })
-        .catch(error => console.log(error))
-    }, [])
+        .catch(error => console.log(error));
+    }, []);
     
     return(
         <div>

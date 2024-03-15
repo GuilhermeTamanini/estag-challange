@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
-import HistoryTable from '../components/Tables/HistoryTable/HistoryTable'
-import Modaltable from '../components/Tables/HistoryTable/ModalTable'
-import Navbar from '../components/Navbar/Navbar'
-import './History.css'
+import HistoryTable from '../components/Tables/HistoryTable/HistoryTable';
+import Modaltable from '../components/Tables/HistoryTable/ModalTable';
+import Navbar from '../components/Navbar/Navbar';
+import './History.css';
 
 export default function History() {
-    const [history, setHistory] = useState([])
-    const [products, setProducts] = useState([])    
+    const [history, setHistory] = useState([]);
+    const [products, setProducts] = useState([]);
     const specialCharsRegex = /[!@#$%^&*()_{}[\]:;<>,.?~]/;  
 
     useEffect(() =>  {
         fetch('http://localhost/routes/orders.php?action=getall')
         .then(response => response.json())
         .then(data => {
-            setHistory(data)
+            setHistory(data);
         })
-        .catch(error => console.log(error))
-    }, [])
+        .catch(error => console.log(error));
+    }, []);
 
     function ViewProducts(e) {
         var button = e.target.parentElement.parentElement;

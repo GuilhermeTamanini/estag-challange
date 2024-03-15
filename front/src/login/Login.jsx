@@ -1,10 +1,10 @@
-import './Login.css'
+import './Login.css';
 import Navbar from "../components/Navbar/Navbar";
 import { isAuthenticated } from '../auth';
 import { useState, useEffect } from 'react';
 
 export default function Login() {
-    const [users, setUsers ] = useState([])
+    const [users, setUsers ] = useState([]);
     useEffect(() => {
         fetch("http://localhost/routes/login.php?action=get")
         .then(res => res.json())
@@ -16,7 +16,7 @@ export default function Login() {
 
         for(let i = 0; i < users.length; i++ ) {
             if(users[i].username === username) {
-                alert("Usuario ja cadastrado")
+                alert("Usuario ja cadastrado");
                 return;
             }
         }
@@ -46,7 +46,7 @@ export default function Login() {
             let user = JSON.parse(sessionStorage.getItem("user")) || [];
             user.push(data);
             sessionStorage.setItem("user", JSON.stringify(user));
-            location.href="http://localhost:5173/"
+            location.href="http://localhost:5173/";
         })
         .catch(err => alert("Usuario ou senha invalidos"));
         //buscar do banco os nomes de usuarios para comparar com o que esta sendo cadastradose for igual manda um alert usar for

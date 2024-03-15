@@ -15,10 +15,10 @@ export default function Products() {
         })
         .then(response => response.json())
         .then(data => {
-            setCategories(data)
+            setCategories(data);
         })
-        .catch(error => console.log(error))
-    }, [])
+        .catch(error => console.log(error));
+    }, []);
 
     useEffect(() =>  {
         fetch('http://localhost/routes/products.php?action=get', {
@@ -27,9 +27,9 @@ export default function Products() {
         })
         .then(response => response.json())
         .then(data => {
-            setProducts(data)
+            setProducts(data);
         })
-        .catch(error => console.log(error))
+        .catch(error => console.log(error));
     }, [])
 
     return(
