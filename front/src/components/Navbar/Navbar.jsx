@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import './Navbar.css';
+import { isAuthenticated } from '../../auth';
 
 export default function Navbar({name, page, number, type}) {
     function Filter() {
@@ -32,15 +33,21 @@ export default function Navbar({name, page, number, type}) {
                     <li className='nav-link'>
                         <a href="/">Home</a>
                     </li>
+                    {isAuthenticated() == true ?
                     <li className='nav-link'>
                         <a href="/products">Products</a>
-                    </li>
+                    </li> : null
+                    }
+                    {isAuthenticated() == true ?
                     <li className='nav-link'>
                         <a href="/categories">Categories</a>
-                    </li>
+                    </li> : null
+                    }
+                    {isAuthenticated() == false || isAuthenticated() == true ?
                     <li className='nav-link'>
                         <a href="/history">History</a>
-                    </li>
+                    </li> : null
+                    }
                     <li className='nav-select'>
                         {page == "Home" || page == "Categories" || page == "Products" || page == "History" ?
                         <div className='nav-select-container'>
@@ -51,9 +58,23 @@ export default function Navbar({name, page, number, type}) {
                             <input type="text" name="" id="filter-input" onKeyUp={Filter}/>
                             </div>
                         </div>: null}
-                    </li>
+                    </li>                    
                 </ul>
             </nav>
+            <ul className='left-nav'>
+                {isAuthenticated() == false || isAuthenticated() == true ?
+                    <li>
+                        <button className='del-btn' onClick={() => {
+                            sessionStorage.removeItem("user");
+                            location.href="http://localhost:5173/";
+                        }}>LOGOUT
+                        </button>
+                    </li>: 
+                    <li className='nav-link'>
+                        <a href="/login">LOGIN</a>
+                    </li>
+                    }
+                </ul>
         </div>
     );
 }

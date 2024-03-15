@@ -4,6 +4,7 @@ import './Card.css'
 import Card from '../components/Card/Card';
 import HomeTable from '../components/Tables/HomeTable/HomeTable';
 import Navbar from '../components/Navbar/Navbar'
+import { isAuthenticated } from '../auth';
 
 
 export default function Home() {
@@ -52,7 +53,8 @@ export default function Home() {
     //Função para mudar o amount no local storage conforme o valor do input muda
     function GetCartsAmounts(e) {
         let carts = JSON.parse(localStorage.getItem('carts'));
-        let trow = e.target.parentElement.parentElement;
+        let trow = e.target.parentElement.parentElement.parentElement;
+        console.log(trow)
         let name = trow.children[1].innerText;
         let amount = trow.querySelector(".quantity").value;
 
@@ -69,14 +71,18 @@ export default function Home() {
     function Finish() {
         let getTotals = JSON.parse(localStorage.getItem('totals')) || []
         let carts = JSON.parse(localStorage.getItem('carts'))
-        if (carts && carts.length > 0) {
-            let totals = {totalPrice: total, totalTax:tax}
-            getTotals.push(totals)
-            getTotal();
-            location.href = `http://localhost/routes/orders.php?action=post&total=${total}&tax=${tax}`
-            localStorage.setItem("totals", JSON.stringify(getTotals))
+        if(isAuthenticated() == true || isAuthenticated() == false) {
+            if (carts && carts.length > 0) {
+                let totals = {totalPrice: total, totalTax:tax}
+                getTotals.push(totals)
+                getTotal();
+                location.href = `http://localhost/routes/orders.php?action=post&total=${total}&tax=${tax}`
+                localStorage.setItem("totals", JSON.stringify(getTotals))
+            } else {
+                alert("carrinho vazio");
+            }
         } else {
-            alert("carrinho vazio");
+            location.href="http://localhost:5173/login";
         }
     }
 

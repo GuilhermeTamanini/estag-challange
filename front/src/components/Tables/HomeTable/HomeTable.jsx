@@ -6,26 +6,28 @@ export default function HomeTable({cart, totalAmount, getCarts, GetCartsAmounts}
             <td id='first-collun'>{cart.productcode}</td>
             <td id="other-collun">{cart.product}</td>
             <td className="number-input" id="other-collun">
-                <button onClick={
-                    //Arrow function para diminuir o valor do input em 1
-                    (e) =>{
-                        let inp = e.target.parentElement.querySelector(".quantity");
-                        if (inp.value > 1) {
-                            inp.value = parseInt(inp.value) - 1;
-                        }
-                        GetCartsAmounts(e)
-                    } }>-</button>
-                    <input className="quantity" min="1" max={totalAmount} name="quantity" defaultValue={cart.amount} type="number" id="getCartAmount" />
-                <button onClick={
-                    //Arrow function para aumentar o valor do input em 1
-                    (e)=>{
-                        let inp = e.target.parentElement.querySelector(".quantity");
-                            if(inp.value >= parseInt(cart.totalAmount)){
-                                inp.value = parseInt(cart.totalAmount) -1;
+                <div className="ninp-div">
+                    <button className="p-btn" onClick={
+                        //Arrow function para diminuir o valor do input em 1
+                        (e) =>{
+                            let inp = e.target.parentElement.querySelector(".quantity");
+                            if (inp.value > 1) {
+                                inp.value = parseInt(inp.value) - 1;
                             }
-                            inp.value = parseInt(inp.value) + 1
-                        GetCartsAmounts(e)
-                    }}>+</button>
+                            GetCartsAmounts(e)
+                        } }>-</button>
+                        <input className="quantity" min="1" max={totalAmount} name="quantity" defaultValue={cart.amount} type="number" id="getCartAmount" />
+                    <button className="p-btn" onClick={
+                        //Arrow function para aumentar o valor do input em 1
+                        (e)=>{
+                            let inp = e.target.parentElement.querySelector(".quantity");
+                                if(inp.value >= parseInt(cart.totalAmount)){
+                                    inp.value = parseInt(cart.totalAmount) -1;
+                                }
+                                inp.value = parseInt(inp.value) + 1
+                            GetCartsAmounts(e)
+                        }}>+</button>
+                </div>
             </td>
             <td id="other-collun">{cart.price}</td>
             <td id="other-collun">{cart.category}</td>

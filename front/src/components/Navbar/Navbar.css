@@ -56,3 +56,15 @@ li {
     border-radius: 5px;
     height: 25px;
 }
+
+.del-btn {
+    justify-content: end;
+    padding:10px;
+}
+
+.left-nav a {
+    padding-right: 50px;
+    text-decoration: none;
+    color: black;
+    font-size: 26px;
+}

@@ -33,7 +33,6 @@ export default function Purchase() {
                             method: "POST",
                             body: data,
                         })
-
                         location.href = `http://localhost/routes/orders.php?action=updateproduct&code=${cart.productcode}&amount=${cart.amount}`
                         localStorage.removeItem('carts');
                         localStorage.removeItem('totals')
