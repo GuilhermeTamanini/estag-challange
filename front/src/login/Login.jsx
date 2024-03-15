@@ -5,11 +5,13 @@ import { useState, useEffect } from 'react';
 
 export default function Login() {
     const [users, setUsers ] = useState([]);
+
     useEffect(() => {
         fetch("http://localhost/routes/login.php?action=get")
         .then(res => res.json())
-        .then(data => {setUsers(data)})
-    },[])
+        .then(data => {setUsers(data)});
+    },[]);
+
     function sign() {
         let username = document.getElementById("post-user").value;
         let password = document.getElementById("post-password").value;
