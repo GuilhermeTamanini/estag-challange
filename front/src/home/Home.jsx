@@ -153,7 +153,8 @@ export default function Home() {
                             }
                             return(
                                 <HomeTable cart={cart} totalAmount={totalAmount} getCarts={getCarts} GetCartsAmounts={GetCartsAmounts}/>
-                            )}) }
+                            )
+                        })}
                     </tbody>
                 </table>
                 <div className="others" id="others">
